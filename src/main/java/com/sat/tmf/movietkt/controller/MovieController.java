@@ -13,21 +13,25 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.sat.tmf.movietkt.entities.Movie;
+import com.sat.tmf.movietkt.entities.Show;
+import com.sat.tmf.movietkt.entities.Theater;
 import com.sat.tmf.movietkt.service.MovieService;
+import com.sat.tmf.movietkt.service.ShowService;
 
 @Controller
-@RequestMapping("/admin/movies")
+@RequestMapping("/movies")
 public class MovieController {
 
     @Autowired
     private MovieService movieService;
 
-    // List all movies (Admin)
+    @Autowired
+    private ShowService showService;
+
     @GetMapping
-    public String listMovies(Model model, @RequestParam(required = false) String search) {
-     List<Movie> movies= (search != null && !search.isEmpty())
-               ? movieService.searchMovies(search)
-               : movieService.findAllMovies();
+    public String listMovies(@RequestParam(required = false) String search,
+                             Model model) {
+        List<Movie> movies;
 
         if (search != null && !search.isEmpty()) {
             movies = movieService.searchMovies(search);
@@ -35,36 +39,38 @@ public class MovieController {
             movies = movieService.findAllMovies();
         }
 
-       
         model.addAttribute("movies", movies);
         model.addAttribute("search", search);
-        model.addAttribute("contentPage", "admin/adminMovies.jsp");
-        model.addAttribute("pageTitle", "Manage Movies");
+        model.addAttribute("contentPage", "/WEB-INF/views/movies.jsp");
+        model.addAttribute("pageTitle", "Now Showing");
+
         return "layout/layout";
     }
-
-    // Add Movie form
+    
     @GetMapping("/add")
     public String showAddForm(Model model) {
         model.addAttribute("movie", new Movie());
-        model.addAttribute("contentPage", "admin/addMovie.jsp");
+        model.addAttribute("contentPage", "/WEB-INF/views/admin/addMovie.jsp");
         model.addAttribute("pageTitle", "Add Movie");
         return "layout/layout";
     }
 
-    // Save movie
+   
     @PostMapping("/add")
-    public String addMovie(@ModelAttribute Movie movie) {
+    public String addMovie(@ModelAttribute Movie movie,Model model) {
         movieService.addMovie(movie);
+        List<Movie> movielist = movieService.findAllMovies();
+        System.out.println(movielist.size());
+        model.addAttribute("movies", movielist);
         return "redirect:/admin/movies";
     }
 
-    // Edit movie
+
     @GetMapping("/edit/{id}")
     public String editMovie(@PathVariable Integer id, Model model) {
         Movie movie = movieService.findById(id);
         model.addAttribute("movie", movie);
-        model.addAttribute("contentPage", "admin/addMovie.jsp");
+        model.addAttribute("contentPage", "/WEB-INF/views/admin/addMovie.jsp");
         model.addAttribute("pageTitle", "Edit Movie");
         return "layout/layout";
     }
@@ -75,4 +81,37 @@ public class MovieController {
         movieService.deleteMovie(id);
         return "redirect:/admin/movies";
     }
+    
+
+    @GetMapping("/movies")
+    public String listMoviesForUser(@RequestParam(required = false) String search,
+                                    @RequestParam(required = false) String language,
+                                    Model model) {
+        List<Movie> movies;
+
+        if (search != null && !search.isEmpty()) {
+            movies = movieService.searchMovies(search);
+        } else {
+            movies = movieService.findAllMovies();
+        }
+
+        model.addAttribute("movies", movies);
+        model.addAttribute("search", search);
+        model.addAttribute("contentPage", "/WEB-INF/views/movies.jsp");
+        model.addAttribute("pageTitle", "Now Showing");
+        return "layout/layout";
+    }
+
+    @GetMapping("/movies/{id}/shows")
+    public String listShowsForMovie(@PathVariable Integer id, Model model) {
+        Movie movie = movieService.findById(id);
+        List<Show> shows = showService.findUpcomingShows(movie);
+        model.addAttribute("movie", movie);
+        model.addAttribute("shows", shows);
+        model.addAttribute("contentPage", "/WEB-INF/views/movieShows.jsp");
+        model.addAttribute("pageTitle", movie.getTitle() + " - Showtimes");
+        return "layout/layout";
+    }
+
 }
+
