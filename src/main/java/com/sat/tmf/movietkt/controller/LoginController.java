@@ -1,6 +1,7 @@
 package com.sat.tmf.movietkt.controller;
 
 import com.sat.tmf.movietkt.entities.User;
+import com.sat.tmf.movietkt.service.MovieService;
 import com.sat.tmf.movietkt.service.UserService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +15,9 @@ public class LoginController {
 
     @Autowired
     private UserService userService;
+    
+    @Autowired 
+    private MovieService movieService;
 
     // =================== LOGIN PAGE ===================
     @GetMapping
@@ -39,6 +43,7 @@ public class LoginController {
             session.setAttribute("loggedInUser", user);
             model.addAttribute("message", "Welcome, " + user.getUsername() + "!");
             model.addAttribute("pageTitle", "Movies");
+            model.addAttribute("movies",movieService.findAllMovies());    
             model.addAttribute("contentPage", "/WEB-INF/views/movies.jsp");
             return "layout/layout";
         } else {
