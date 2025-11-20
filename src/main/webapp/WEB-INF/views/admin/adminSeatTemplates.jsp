@@ -1,3 +1,4 @@
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <div class="container mt-4">
     <h2> Seat Templates for ${screen.name}</h2>
@@ -11,7 +12,7 @@
             <th>ID</th>
             <th>Name</th>
             <th>Rows</th>
-            <th>Cols</th>
+            <th>Columns</th>
             <th>Seats</th>
             <th>Actions</th>
         </tr>
