@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <div class="container mt-4">
     <h2 class="mb-4 text-center"> Now Showing</h2>
 
@@ -23,7 +24,7 @@
                             <small><strong>Genre:</strong> ${m.genre}</small><br/>
                             <small><strong>Duration:</strong> ${m.duration} min</small>
                         </p>
-                        <a href="${pageContext.request.contextPath}/movies/${m.id}/shows" class="btn btn-outline-primary btn-sm">
+                        <a href="${pageContext.request.contextPath}/user/movies/${m.id}/shows" class="btn btn-outline-primary btn-sm">
                             View Showtimes
                         </a>
                     </div>
