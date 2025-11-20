@@ -24,7 +24,7 @@ public class UserMovieController {
     private ShowService showService;
 
     // User browsing movies
-    @GetMapping("/movies")
+    @GetMapping("/user/movies")
     public String listMoviesForUser(@RequestParam(required = false) String search,
                                     @RequestParam(required = false) String language,
                                     Model model) {
@@ -35,13 +35,13 @@ public class UserMovieController {
 
         model.addAttribute("movies", movies);
         model.addAttribute("search", search);
-        model.addAttribute("contentPage", "/WEB-INF/views/user/movies.jsp");
+        model.addAttribute("contentPage", "/WEB-INF/views/movies.jsp");
         model.addAttribute("pageTitle", "Now Showing");
         return "layout/layout";
     }
 
     // User movie showtimes
-    @GetMapping("/movies/{id}/shows")
+    @GetMapping("/user/movies/{id}/shows")
     public String listShowsForMovie(@PathVariable Integer id, Model model) {
 
         Movie movie = movieService.findById(id);
@@ -49,7 +49,7 @@ public class UserMovieController {
 
         model.addAttribute("movie", movie);
         model.addAttribute("shows", shows);
-        model.addAttribute("contentPage", "/WEB-INF/views/user/movieShows.jsp");
+        model.addAttribute("contentPage", "/WEB-INF/views/movieShows.jsp");
         model.addAttribute("pageTitle", movie.getTitle() + " - Showtimes");
         return "layout/layout";
     }
