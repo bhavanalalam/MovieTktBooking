@@ -13,15 +13,16 @@ public class SeatTemplate {
 
     @Column(nullable = false)
     private String name;
-
-    private Integer num_rows;
+    @Column(name = "seat_rows")
+    private Integer rows;
+    @Column(name = "seat_cols")
     private Integer cols;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "screen_id", nullable = false)
     private Screen screen;
 
-    @OneToMany(mappedBy = "seatTemplate", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "seatTemplate", cascade = CascadeType.ALL, orphanRemoval = true,fetch = FetchType.EAGER)
     private List<TemplateSeat> seats;
 
     // Getters and Setters
@@ -31,8 +32,8 @@ public class SeatTemplate {
     public String getName() { return name; }
     public void setName(String name) { this.name = name; }
 
-    public Integer getRows() { return num_rows; }
-    public void setRows(Integer rows) { this.num_rows =num_rows; }
+    public Integer getRows() { return rows; }
+    public void setRows(Integer rows) { this.rows =rows; }
 
     public Integer getCols() { return cols; }
     public void setCols(Integer cols) { this.cols = cols; }
