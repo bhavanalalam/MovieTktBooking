@@ -20,10 +20,11 @@ public class Screen {
     @JoinColumn(name = "theater_id", nullable = false)
     private Theater theater;
 
-    @OneToMany(mappedBy = "screen", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "screen", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
+
     private List<SeatTemplate> seatTemplates;
 
-    // Getters and setters
+    // Getters and Setters
     public Integer getId() { return id; }
     public void setId(Integer id) { this.id = id; }
 
@@ -39,5 +40,3 @@ public class Screen {
     public List<SeatTemplate> getSeatTemplates() { return seatTemplates; }
     public void setSeatTemplates(List<SeatTemplate> seatTemplates) { this.seatTemplates = seatTemplates; }
 }
-
-
