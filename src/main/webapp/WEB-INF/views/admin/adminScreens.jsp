@@ -1,4 +1,6 @@
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+
 <div class="container mt-4">
     <h2> Manage Screens for ${theater.name}</h2>
     <a href="${pageContext.request.contextPath}/admin/screens/add/${theater.id}" class="btn btn-success mb-3">
