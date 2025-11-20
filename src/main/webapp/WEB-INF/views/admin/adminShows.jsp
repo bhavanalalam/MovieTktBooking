@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <div class="container mt-4">
     <h2>Shows for ${screen.name}</h2>
     <a href="${pageContext.request.contextPath}/admin/shows/add/${screen.id}" class="btn btn-success mb-3">
