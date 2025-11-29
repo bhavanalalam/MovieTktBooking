@@ -39,5 +39,9 @@ public class TemplateSeatServiceImpl implements TemplateSeatService {
     public void deleteSeatsByTemplate(Integer templateId) {
         templateSeatDao.deleteByTemplateId(templateId);
     }
-}
 
+    @Override
+    public TemplateSeat findById(Integer id) {
+        return templateSeatDao.findById(id);  // ✅ FIXED
+    }
+}

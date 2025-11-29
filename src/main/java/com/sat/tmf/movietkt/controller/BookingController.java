@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.sat.tmf.movietkt.entities.Booking;
 import com.sat.tmf.movietkt.entities.Show;
+import com.sat.tmf.movietkt.entities.TemplateSeat;
 import com.sat.tmf.movietkt.entities.User;
 import com.sat.tmf.movietkt.service.BookingService;
 import com.sat.tmf.movietkt.service.ShowService;
@@ -32,13 +33,20 @@ public class BookingController {
     // View seat map for a show
     @GetMapping("/select/{showId}")
     public String selectSeats(@PathVariable Integer showId, Model model) {
+
         Show show = showService.findById(showId);
+
+        List<TemplateSeat> templateSeats =
+                seatService.findByTemplateId(show.getSeatTemplate().getId());
+
         model.addAttribute("show", show);
-        model.addAttribute("templateSeats", seatService.findByTemplateId(show.getSeatTemplate().getId()));
+        model.addAttribute("templateSeats", templateSeats); 
+        model.addAttribute("pageTitle", "Select Seats");
         model.addAttribute("contentPage", "/WEB-INF/views/selectSeats.jsp");
-        model.addAttribute("pageTitle", "Select Seats for " + show.getMovie().getTitle());
+
         return "layout/layout";
     }
+
 
     // Hold seats
     @PostMapping("/hold")

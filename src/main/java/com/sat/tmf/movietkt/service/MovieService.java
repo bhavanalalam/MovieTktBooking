@@ -11,5 +11,6 @@ public interface MovieService {
     Movie findById(Integer id);
     List<Movie> findAllMovies();
     List<Movie> searchMovies(String keyword);
+	Object getMovieById(Long id);
 }
 
